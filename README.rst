@@ -30,6 +30,8 @@
 **NVIDIA NeMo**
 ===============
 
+Skip Connections for FPGA development on ASR QuartzNets
+
 Introduction
 ------------
 
