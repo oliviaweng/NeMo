@@ -9,10 +9,11 @@ model:
                    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "'"]
 
   train_ds:
-    manifest_filepath: ???
+    manifest_filepath: /app/dev-nemo/data/train_clean_5.json
     sample_rate: 16000
     labels: *labels
-    batch_size: 16
+    batch_size: 4
+    num_workers: 24
     trim_silence: True
     max_duration: 16.7
     shuffle: True
@@ -25,10 +26,10 @@ model:
     bucketing_batch_size: null
 
   validation_ds:
-    manifest_filepath: ???
+    manifest_filepath: /app/dev-nemo/data/dev_clean_2.json
     sample_rate: 16000
     labels: *labels
-    batch_size: 16
+    batch_size: 4
     shuffle: False
 
   test_ds:

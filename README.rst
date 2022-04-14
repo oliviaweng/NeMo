@@ -27,10 +27,20 @@
 
 .. _main-readme:
 
-**NVIDIA NeMo**
+**Skip Connections for FPGA development on ASR QuartzNets**
+===========================================================
+
+*Docker Setup*
+-------
+Make sure you have `docker` and `docker-compose` installed.
+
+The script `docker-build.sh` builds the docker image and gets the container running using `docker-compose`. To be able to hook up the GPU, make sure in `/etc/nvidia-container-runtime/config.toml`, you have set `no-cgroups = true`. This script only needs to be run *once*. After that, you can get the container up and running by running `docker-compose up -d`.
+
+
+
+*NVIDIA NeMo*
 ===============
 
-Skip Connections for FPGA development on ASR QuartzNets
 
 Introduction
 ------------

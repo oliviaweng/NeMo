@@ -1,27 +1,21 @@
-import glob
-import os
-import sys
-import subprocess
-import nemo
+import argparse
 import nemo.collections.asr as nemo_asr
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 
 
-def load():
+def load(config):
   try:
       from ruamel.yaml import YAML
   except ModuleNotFoundError:
       from ruamel_yaml import YAML
-  config_path = './NeMo/examples/asr/conf/config.yaml' 
   yaml = YAML(typ='safe')
-  with open(config_path) as f:
+  with open(config) as f:
       params = yaml.load(f)
   return params
 
 
 def inference( params, first_asr_model ):
-    params['model']['validation_ds']['batch_size'] = 16
     first_asr_model.setup_test_data(test_data_config=params['model']['validation_ds'])
     first_asr_model.cuda()
      # We will be computing Word Error Rate (WER) metric between our hypothesis and predictions.
@@ -51,22 +45,21 @@ def inference( params, first_asr_model ):
     print(f"WER = {sum(wer_nums)/sum(wer_denoms)}")
 
 
-    
-
-
-
-
 def main():
-  data_dir ='./data'
-  train_manifest = data_dir + '/train_clean_100.json'
-  test_manifest = data_dir + '/dev_clean.json'
-  trainer = pl.Trainer(gpus=1, max_epochs=1)
-  #load the data:
-  params = load()
+  parser = argparse.ArgumentParser(description="QuartzNet skip connection testing for efficient FPGA implementation")
+  parser.add_argument('--model-config', '-c', required=True, help='yaml config of desired model')
+  args = parser.parse_args()
+
+  # data_dir ='/app/dev-nemo/data'
+  # train_manifest = data_dir + '/train_clean_5.json'
+  # test_manifest = data_dir + '/dev_clean_2.json'
+  # #load the data:
+  params = load(args.model_config)
+  trainer = pl.Trainer(gpus=1, max_epochs=3)
 
   #use the model:
-  params['model']['train_ds']['manifest_filepath'] = train_manifest
-  params['model']['validation_ds']['manifest_filepath'] = test_manifest
+  # params['model']['train_ds']['manifest_filepath'] = train_manifest
+  # params['model']['validation_ds']['manifest_filepath'] = test_manifest
   first_asr_model = nemo_asr.models.EncDecCTCModel(cfg=DictConfig(params['model']), trainer=trainer)
 
   #training starts:

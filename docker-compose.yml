@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+    nemo-skip:
+        ports:
+            - '6006:6006'
+        container_name: nemo
+        privileged: true
+        volumes:
+            - '/dev:/dev'
+            - '/home/olivia/fpga-skip-connections/dev-nemo:/app/dev-nemo'
+        image: nemo-skip
+        deploy:
+          resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: all
+                  capabilities: [gpu]

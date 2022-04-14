@@ -1,0 +1,37 @@
+Cython==0.29.27
+tqdm
+
+# lightning requirements
+pytorch-lightning>=1.6.0
+torchmetrics>=0.4.1rc0
+transformers>=4.0.1
+webdataset>=0.1.48,<=0.1.62
+omegaconf>=2.1.0
+hydra-core>=1.1.0
+pyyaml<6  # Pinned until omegaconf works with pyyaml>=6
+
+# ASR requirements
+braceexpand
+editdistance
+inflect
+kaldi-io
+librosa
+marshmallow
+packaging
+ruamel.yaml
+soundfile
+sox
+kaldi-python-io
+kaldiio
+scipy>=0.14
+g2p_en
+pydub
+pyannote.core
+pyannote.metrics
+torch-stft
+ipywidgets
+matplotlib
+
+sentencepiece<1.0.0
+youtokentome>=1.0.5
+pandas
