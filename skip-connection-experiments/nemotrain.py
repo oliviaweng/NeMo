@@ -1,5 +1,6 @@
 import argparse
 import nemo.collections.asr as nemo_asr
+from nemo.utils.exp_manager import exp_manager
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 
@@ -55,7 +56,7 @@ def main():
   # test_manifest = data_dir + '/dev_clean_2.json'
   # #load the data:
   params = load(args.model_config)
-  trainer = pl.Trainer(gpus=1, max_epochs=3)
+  trainer = pl.Trainer(gpus=1)
 
   #use the model:
   # params['model']['train_ds']['manifest_filepath'] = train_manifest

@@ -1,4 +1,5 @@
 # log and data files
+*.ckpt
 **logs/
 *.model
 *.pkl

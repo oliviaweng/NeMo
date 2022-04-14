@@ -1,0 +1,13 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: librispeech-volume
+  namespace: brevitas
+spec:
+  storageClassName: rook-cephfs
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 400Gi
