@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: libri-data
+spec:
+  template:
+    spec:
+      containers:
+      - name: gpu-container
+        image: gitlab-registry.nrp-nautilus.io/prp/jupyter-stack/prp:latest
+        command: ["/bin/bash", "-c"]
+        args:
+          -
+            python3 /librispeech-volume/NeMo/scripts/dataset_processing/get_librispeech_data.py --data_root=data --data_set=ALL;
+            rm Librispeech/*.tar.gz;
+        volumeMounts:
+        - mountPath: /librispeech-volume
+          name: librispeech-volume
+        resources:
+          limits:
+            memory: 56Gi
+            cpu: "16"
+            # nvidia.com/gpu: "1"
+          requests:
+            memory: 50Gi
+            cpu: "12"
+            # nvidia.com/gpu: "1"    
+      volumes:
+        - name: librispeech-volume
+          persistentVolumeClaim:
+            claimName: librispeech-volume
+      restartPolicy: Never
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: nvidia.com/gpu.product
+      #           operator: In
+      #           values:
+      #           - NVIDIA-GeForce-RTX-2080-Ti
+
+  backoffLimit: 2
